@@ -1,11 +1,14 @@
-import React,{ useState } from 'react'
-import './App.css'
-
+import React from 'react';
+import './App.css';
+import HomePage from './components/homepage';
+import { Route, Routes } from 'react-router-dom';
 function App() {
 
   return (
     <>
-      <h1 className='text-center'>React Calculator</h1>
+         <Routes>
+        <Route path="/" element={<HomePage />} ></Route>
+        </Routes>
     </>
   )
 }
