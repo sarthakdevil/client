@@ -1,3 +1,4 @@
+
 function CarouselSlide({image, title, description, slideNumber, totalSlides}) {
     return (
                 <div id={`slide${slideNumber}`} className="carousel-item relative w-full">
