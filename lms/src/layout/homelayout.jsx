@@ -11,7 +11,7 @@ function HomeLayout({ children }) {
     const navigate = useNavigate();
 
     // for checking if user is logged in
-    const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
+    const isLoggedIn = useSelector((state) => state?.auth?.isloggedIn);
 
     // for displaying the options acc to role
     const role = useSelector((state) => state?.auth?.role);
@@ -32,7 +32,7 @@ function HomeLayout({ children }) {
     async function handleLogout(e) {
         e.preventDefault();
 
-        const res = await dispatch(logout());
+        const res = dispatch(logout());
         if(res?.payload?.success)
         navigate("/");
     }

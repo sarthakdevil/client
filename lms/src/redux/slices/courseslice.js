@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { toast } from "react-hot-toast";
 
-import axiosInstance from "../../Helpers/axiosInstance";
+import axiosInstance from "../../../helpers/axios.js";
 
 const initialState = {
     courseData: []
 }
 
-export const getAllCourses = createAsyncThunk("/course/get", async () => {
+export const getAllCourses = createAsyncThunk("/courses/get", async () => {
     try {
         const response = axiosInstance.get("/courses");
         toast.promise(response, {

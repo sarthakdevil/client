@@ -43,7 +43,7 @@ const initialState={
 
 export const logout = createAsyncThunk("/auth/logout", async () => {
   try {
-      const res = axiosInstance.post("user/logout");
+      const res = axiosInstance.get("user/logout");
       toast.promise(res, {
           loading: "Wait! logout in progress...",
           success: (data) => {
@@ -75,7 +75,7 @@ const authslice = createSlice({
         localStorage.removeItem("data", JSON.stringify(action?.payload?.user));
         localStorage.setItem("isLoggedIn",false)
         localStorage.removeItem("role", action?.payload?.user?.role);
-        state.isLoggedIn= false;
+        state.isloggedIn= false;
         state.data = null
         state.role = null
       })
