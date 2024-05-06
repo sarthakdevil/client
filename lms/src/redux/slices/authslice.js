@@ -1,16 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../../../helpers/axios";
+import Cookies from 'js-cookie'
 const initialState={
-    isLoggedIn:localStorage.getItem("isLoggedIn") || false,
+    isloggedIn:localStorage.getItem("isLoggedIn") || false,
     role: localStorage.getItem('role')||"",
     data:localStorage.getItem("userdata") ? JSON.parse(localStorage.getItem("userdata")) : {},
 }
   export const createAccount = createAsyncThunk(
-    "/auth/register",
+    "/auth/signup",
     async (data) => {
       try {
-        const res = await axiosInstance.post("user/register", data);
+        const res = await axiosInstance.post("/auth/register", data);
         toast.promise(res, {
           loading: "Wait! Creating your account",
           success: (data) => {
@@ -18,7 +19,7 @@ const initialState={
           },
           error: "Failed to create account"
         });
-        return (await res).data;
+        return res.data;
       } catch (error) {
         toast.error("Failed to create account:", error);
       }
@@ -28,6 +29,8 @@ const initialState={
   export const login = createAsyncThunk("/auth/register", async (data) => {
     try {
         const res = axiosInstance.post("user/login", data);
+        const token = res.token; // Assuming the token is in the response data
+        Cookies.set("token", token);
         toast.promise(res, {
             loading: "Wait! authentication in progress...",
             success: (data) => {
@@ -56,6 +59,22 @@ export const logout = createAsyncThunk("/auth/logout", async () => {
       toast.error(error?.response?.data?.message);
   }
 });
+
+export const getUserData = createAsyncThunk("/user/profile", async () => {
+  try {
+      const token = Cookies.get(token);
+      console.log(token)
+      const res = await axiosInstance.get("/user/me", {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }
+      });
+      return res.data;
+  } catch (error) {
+      throw new Error(error.message); // Throw the error to be handled in the UI
+  }
+});
+
 
 const authslice = createSlice({
     name:"auth",

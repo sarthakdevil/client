@@ -1,16 +1,22 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function RequireAuth({ allowedRoles }) {
-    const { isLoggedIn, role } = useSelector((state) => state.auth);
-
-    return isLoggedIn && allowedRoles.includes(role) ? (
+    const { isloggedIn, role } = useSelector((state) => state.auth);
+    console.log(isloggedIn,role)
+    return isloggedIn && allowedRoles.includes(role) ? (
         <Outlet />
-    ) : isLoggedIn ? ( 
+    ) : isloggedIn ? ( 
         <Navigate to="/denied" />
     ) : (
-        <Navigate to="login" />
+        <Navigate to="/login" />
     );
 }
+
+// PropTypes validation
+RequireAuth.propTypes = {
+    allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired
+};
 
 export default RequireAuth;
