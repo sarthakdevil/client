@@ -6,16 +6,16 @@ import HomeLayout from "../layout/homelayout.jsx";
 import { getUserData } from "../redux/slices/authslice.js";
 import { cancelCourseBundle } from "../redux/slices/RazorpaySlice.js";
 
-  async function Profile() {
+function Profile() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const userData = await dispatch(getUserData());;
-    console.log(userData)
+    const userData = useSelector((state) => state?.auth?.data);
+
     async function handleCancellation() {
         toast("Initiating cancellation");
-         dispatch(cancelCourseBundle());
-         dispatch(getUserData());
+        await dispatch(cancelCourseBundle());
+        await dispatch(getUserData());
         toast.success("Cancellation completed!");
         navigate("/");
 

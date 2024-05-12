@@ -7,7 +7,6 @@ import HomeLayout from '../layout/homelayout';
 import { login } from '../redux/slices/authslice';
 
 function Login() {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -15,31 +14,38 @@ function Login() {
         email: "",
         password: "",
     });
+    const [loading, setLoading] = useState(false);
 
     function handleUserInput(e) {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setLoginData({
             ...loginData,
             [name]: value
-        })
+        });
     }
 
     async function onLogin(event) {
         event.preventDefault();
-        if(!loginData.email || !loginData.password) {
+        if (!loginData.email || !loginData.password) {
             toast.error("Please fill all the details");
             return;
         }
 
-        // dispatch create account action
-        const response = dispatch(login(loginData));
-        if(response?.payload?.success)
-            navigate("/");
+        setLoading(true); // Start loading indicator
 
-        setLoginData({
-            email: "",
-            password: "",
-        });
+        try {
+            const response = await dispatch(login(loginData));
+            if (response.payload && response.payload.success) {
+                navigate("/");
+                toast.success("Logged in successfully");
+            } else {
+                toast.error("Invalid email or password");
+            }
+        } catch (error) {
+            toast.error("An error occurred while logging in");
+        }
+
+        setLoading(false); // Stop loading indicator
     }
 
     return (
@@ -49,8 +55,8 @@ function Login() {
                     <h1 className="text-center text-2xl font-bold">Login Page</h1>
                     <div className='flex flex-col gap-1'>
                         <label htmlFor="email" className='font-semibold'> Email </label>
-                        <input 
-                            type="email" 
+                        <input
+                            type="email"
                             required
                             name="email"
                             id="email"
@@ -62,8 +68,8 @@ function Login() {
                     </div>
                     <div className='flex flex-col gap-1'>
                         <label htmlFor="password" className='font-semibold'> Password </label>
-                        <input 
-                            type="password" 
+                        <input
+                            type="password"
                             required
                             name="password"
                             id="password"
@@ -74,12 +80,16 @@ function Login() {
                         />
                     </div>
 
-                    <button type="submit" className='mt-2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer'>
-                       Login
+                    <button
+                        type="submit"
+                        className='mt-2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer'
+                        disabled={loading} // Disable button when loading
+                    >
+                        {loading ? "Logging in..." : "Login"}
                     </button>
 
                     <p className="text-center">
-                        Donot have an account ? <Link to="/signup" className='link text-accent cursor-pointer'> Signup</Link>
+                        Dont have an account? <Link to="/signup" className='link text-accent cursor-pointer'> Signup</Link>
                     </p>
 
                 </form>

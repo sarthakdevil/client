@@ -13,31 +13,38 @@ import Denied from './components/Denied';
 import RequireAuth from './components/auth/RequireAuth';
 import CreateCourse from './components/course/CreateCourse';
 import Profile from './components/Profile';
+import EditProfile from './components/profileedit';
+import Checkout from './components/Checkout';
+import CheckoutSuccess from './components/CheckoutSuccess';
+import CheckoutFailure from './components/CheckoutFailure';
 function App() {
 
   return (
     <>
-         <Routes>
-        <Route path="/" element={<HomePage />} ></Route>
-        <Route path="/about" element={<AboutUs />}></Route>
-        <Route path="/denied" element={<Denied/>} />
-        <Route path="*" element={<NotFound/>}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path = "/contact" element={<Contact/>}></Route>
-        <Route path = "/courses" element={<CourseList/>}></Route>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/denied" element={<Denied />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/courses" element={<CourseList />} />
         <Route path="/course/description" element={<CourseDescription />} />
-        <Route element={<RequireAuth allowedRoles={"ADMIN"}/>}>
-          <Route path="/create" element={<CreateCourse/>}></Route> 
-          
+        <Route element={<RequireAuth allowedRoles={["ADMIN"]} />}>
+          <Route path="/create" element={<CreateCourse />} />
         </Route>
-        <Route element={<RequireAuth allowedRoles={["ADMIN","USER"]}/>}>
-          <Route path='/user/profile' element={<Profile/>}>
+        <Route element={<RequireAuth allowedRoles={["ADMIN", "USER"]} />}>
+          <Route path='/user/profile' element={<Profile />}>
           </Route>
+          <Route path='/user/editprofile' element={<EditProfile />} />
         </Route>
-        </Routes>
+        <Route path='/checkout' element={<Checkout />} />
+          <Route path='/checkout/success' element={<CheckoutSuccess />} />
+          <Route path='/checkout/fail' element={<CheckoutFailure />} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

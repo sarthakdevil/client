@@ -34,7 +34,7 @@ function Signup() {
         event.preventDefault();
         // getting the image
         const uploadedImage = event.target.files[0];
-
+        console.log(uploadedImage)
         if(uploadedImage) {
             setSignupData({
                 ...signupData,
@@ -78,7 +78,7 @@ function Signup() {
         formData.append("avatar", signupData.avatar);
         console.log(formData);
         // dispatch create account action
-        const response = await dispatch(createAccount(formData));
+        const response = dispatch(createAccount(formData));
         console.log("Response:", response);
         if(response?.payload?.success)
             navigate("/login");

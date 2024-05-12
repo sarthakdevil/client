@@ -53,7 +53,7 @@ function CreateCourse() {
             return;
         }
 
-        const response = await dispatch(createNewCourse(userInput));
+        const response = dispatch(createNewCourse(userInput));
         if(response?.payload?.success) {
             setUserInput({
                 title: "",
