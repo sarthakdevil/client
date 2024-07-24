@@ -20,6 +20,7 @@ function Checkout() {
     }
 
     async function handleSubscription(e) {
+        console.log(razorpayKey,subscription_id)
         e.preventDefault();
         if(!razorpayKey || !subscription_id) {
             toast.error("Something went wrong");
@@ -51,12 +52,13 @@ function Checkout() {
     }
 
     async function load() {
-        await dispatch(getRazorPayId());
-        await dispatch(purchaseCourseBundle());
+       await dispatch(getRazorPayId());
+       await dispatch(purchaseCourseBundle());
     }
 
     useEffect(() => {
         load();
+        console.log("loaded")
     }, []);
 
     return (
