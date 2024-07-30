@@ -3,20 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 
 import CourseCard from "../course/coursecard.jsx";
 import HomeLayout from "../../layout/homelayout.jsx";
-import { getAllCourses } from "../../redux/slices/courseslice.js";
+import { getAllCourses, setSelectedCourse } from "../../redux/slices/courseslice.js";
 
 function CourseList() {
     const dispatch = useDispatch();
-
-    const {courseData} = useSelector((state) => state.course);
-
-    async function loadCourses() {
-         dispatch(getAllCourses());
-    }
+    const { courseData } = useSelector((state) => state.course);
 
     useEffect(() => {
-        loadCourses();
-    }, []);
+        dispatch(getAllCourses());
+    }, [dispatch]);
+
+    const handleCourseSelect = (course) => {
+        console.log(course);
+        dispatch(setSelectedCourse(course));
+    };
 
     return (
         <HomeLayout>
@@ -28,16 +28,13 @@ function CourseList() {
                     </span>
                 </h1>
                 <div className="mb-10 flex flex-wrap gap-14">
-                    {courseData?.map((element) => {
-                        return <CourseCard key={element._id} data={element} />
-                    })}
+                    {courseData?.map((element) => (
+                        <CourseCard key={element._id} data={element} onClick={() => handleCourseSelect(element)} />
+                    ))}
                 </div>
-                
-
             </div>
         </HomeLayout>
     );
-
 }
 
 export default CourseList;
